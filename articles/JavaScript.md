@@ -48,7 +48,6 @@ const prototype = Object.prototype
 
 实例.constructorr === 构造函数
 ```
-放大来看，我画了张图供大家彻底理解:
 ![GitHub Logo](/img/原型和原型链.jpg)
 
 ## 2. 原型链
