@@ -13,9 +13,9 @@
 - [代码的复用](#11-代码的复用)
 - [继承](#12-继承)
 - [对象的拷贝](#13-对象的拷贝)
-- [作用域链](#14-作用域链)
-- [作用域链](#15-作用域链)
-- [作用域链](#16-作用域链)
+- [类型转换](#14-类型转换)
+- [类型判断](#15-类型判断)
+- [模块化](#16-模块化)
 - [作用域链](#17-作用域链)
 - [作用域链](#18-作用域链)
 - [作用域链](#19-作用域链)
@@ -151,20 +151,56 @@ var inherit = (function(c,p){
     }
 })();
 ```
-- 使用 ES6 的语法糖 class / extends 
+- 使用 ES6 的语法糖 `class` / `extends` 
 ## 13. 对象的拷贝
 - 浅拷贝: 以赋值的形式拷贝引用对象，仍指向同一个地址，修改时原对象也会受到影响
-    - Object.assign
+    - `Object.assign`
     - 展开运算符(...)
 - 深拷贝: 完全拷贝一个新对象，修改时原对象不再受到任何影响
-    - JSON.parse(JSON.stringify(obj)): 性能最快
+    - `JSON.parse(JSON.stringify(obj))`: 性能最快
         - 具有循环引用的对象时，报错
-        - 当值为函数或undefined时，无法拷贝
+        - 当值为函数或`undefined`时，无法拷贝
     - 递归进行逐一赋值
+## 14. 类型转换
+JS 中在使用运算符号或者对比符时，会自带隐式转换，规则如下:
+- -、*、/、% ：一律转换成数值后计算
+- +：
+    - 数字 + 字符串 = 字符串， 运算顺序是从左到右
+    - 数字 + 对象， 优先调用对象的valueOf -> toString
+    - 数字 + `boolean/null` = 数字
+    - 数字 + `undefined` == `NaN`
+- `[1].toString() `===` '1'`
+- `{}.toString()` === `'[object object]'`
+- `NaN` !== `NaN` 、`+undefined` === `NaN`
+## 15. 类型判断
+判断 Target 的类型，单单用 `typeof` 并无法完全满足，这其实并不是 bug，本质原因是 JS 的万物皆对象的理论。因此要真正完美判断时，我们需要区分对待:
+- 基本类型(`null`): 使用 `String(null)`
+- 基本类型(`string` / `number` / `boolean` / `undefined`) + `function`: 直接使用 `typeof`即可
+- 判断已知对象类型的方法 `instanceof`
+- 其余引用类型(`Array` / `Date` / `RegExp` `Error`): 调用`toString`后根据`[object XXX]`进行判断
+很稳的判断封装:
+```
+let class2type = {}
+'Array Date RegExp Object Error'.split(' ').forEach(
+    e => class2type[ '[object ' + e + ']' ] = e.toLowerCase()
+) 
 
-## 14. new运算符的执行过程
-## 15. new运算符的执行过程
-## 16. new运算符的执行过程
+function type(obj) {
+    if (obj == null) return String(obj)
+    return typeof obj === 'object' 
+        ? class2type[ Object.prototype.toString.call(obj) ] || 'object' : typeof obj
+}
+```
+## 16. 模块化
+模块化开发在现代开发中已是必不可少的一部分，它大大提高了项目的可维护、可拓展和可协作性。通常，__我们 在浏览器中使用 ES6 的模块化支持，在 Node 中使用 commonjs 的模块化支持__。
+- 分类:
+    - es6: `import` / `exports`
+    - commonjs: `require / module.exports / exports`
+    - amd: `require / defined`
+- `require`与`import`的区别
+    - `require`支持 **动态导入**，`import`不支持，正在提案 (babel 下可支持)
+    - `require`是 **同步** 导入，`import`属于 **异步** 导入
+    - `require`是 **值拷贝**，导出值变化不会影响导入值；`import`指向 **内存地址**，导入值会随导出值而变化
 ## 17. new运算符的执行过程
 ## 18. new运算符的执行过程
 ## 19. new运算符的执行过程
