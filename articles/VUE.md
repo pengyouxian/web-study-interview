@@ -1,4 +1,14 @@
 # VUE
+
+## vue和angular的一些对比：
+|`VUE`|`angular`|
+|:----|:----|
+|v-if|*ngIf|
+|v-for="item in items"|*ngForr="let hero of heroes"|
+|v-on:click="fn()"|(click)="fn()"|
+|v-bind:class="{ active: isActive }"|[class.selected]="flage == true"|
+都支持模板语法:  `<h1>{{title}}</h1>`
+
 ## 1. nextTick
 在下次`dom`更新循环结束之后执行延迟回调，可用于获取更新后的`dom`状态
 - 新版本中默认是`mincrotasks`, `v-on`中会使用`macrotasks`
