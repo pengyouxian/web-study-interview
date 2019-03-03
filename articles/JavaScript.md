@@ -267,9 +267,3 @@ arr.prototype.flat = function() {
     this.toString().split(',').map(item => +item )
 }
 ```
-## 22. new运算符的执行过程
-## 23. new运算符的执行过程
-## 24. new运算符的执行过程
-## 25. new运算符的执行过程
-## 26. new运算符的执行过程
-## 27. new运算符的执行过程
