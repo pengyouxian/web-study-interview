@@ -227,7 +227,7 @@ function square(n){
 - 新 AST 通过 babel-generator 转换成 ES5
 ## 20. 函数柯里化
 在一个函数中，首先填充几个参数，然后再返回一个新的函数的技术，称为函数的柯里化。通常可用于在不侵入函数的前提下，为函数 **预置通用参数**，供多次重复调用。
-```js
+```javascript {.line-numbers}
 const add = function add(x) {
     return function (y) {
         return x + y
