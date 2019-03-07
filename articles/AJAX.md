@@ -27,10 +27,11 @@ xmlHttp.onreadystatechange = function(){
 ```javascript {.line-numbers}
 var xmlhttp;
 if(window.XMLHttpRequest){ 
-    //IE7+,Chrome,Firefox,Safari,Opera执行此代码 xmlhttp=new XMLHttpRequest;
+    //IE7+,Chrome,Firefox,Safari,Opera执行此代码 
+    xmlhttp = new XMLHttpRequest;
 }else{
     //IE5,IE6执行该代码
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 }
 ```
 
