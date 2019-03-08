@@ -13,7 +13,7 @@
         - `yield`: 暂停代码 
         - `next()`: 继续执行代码
         ```
-```
+```js
 function* helloWorld() {
   yield 'hello';
   yield 'world';
