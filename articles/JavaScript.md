@@ -29,7 +29,7 @@
 
 这里来举个栗子，以Object为例，我们常用的Object便是一个构造函数，因此我们可以通过它构建实例。
 
-```
+```js
 // 实例
 const instance = new Object()
 ```
@@ -39,14 +39,17 @@ const instance = new Object()
 const prototype = Object.prototype
 ```
 这里我们可以来看出三者的关系:
-```
+```js
+/* 
 实例.__proto__ === 原型
-
 原型.constructor === 构造函数
-
 构造函数.prototype === 原型
-
-实例.constructorr === 构造函数
+实例.constructorr === 构造函数 
+*/
+instance.__proto__ === prototype 
+prototype.constructor === Object
+Object.prototype === prototype
+instance.constructor === Object
 ```
 ![GitHub Logo](/img/原型和原型链.jpg)
 
