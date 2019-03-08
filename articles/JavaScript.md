@@ -340,10 +340,9 @@ for( let i of arr){
 `for-of`循环也支持字符串遍历.
 
 ### JS对象遍历：
-1. for-in遍历
+1. for-in遍历  
 
 for-in是为遍历对象而设计的，不适用于遍历数组。
-
 遍历数组的缺点：数组的下标index值是数字，for-in遍历的index值"0","1","2"等是字符串
 ```js
 for (var index in arr){
@@ -351,6 +350,30 @@ for (var index in arr){
     console.log(index);
 }
 ```
-使用Object.keys()遍历  
-    
-    返回一个数组,包括对象自身的(不含继承的)所有可枚举属性(不含Symbol属性).
+2. 使用Object.keys()遍历  
+
+返回一个数组,包括对象自身的(不含继承的)所有可枚举属性(不含Symbol属性).
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Object.keys(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
+```
+3. 使用Object.getOwnPropertyNames(obj)遍历
+
+返回一个数组,包含对象自身的所有属性(不含Symbol属性,但是包括不可枚举属性).
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Object.getOwnPropertyNames(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
+```
+4. 使用Reflect.ownKeys(obj)遍历
+
+返回一个数组,包含对象自身的所有属性,不管属性名是Symbol或字符串,也不管是否可枚举.  
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Reflect.ownKeys(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
+```
