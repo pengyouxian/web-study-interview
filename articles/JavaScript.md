@@ -267,3 +267,90 @@ arr.prototype.flat = function() {
     this.toString().split(',').map(item => +item )
 }
 ```
+### 数组遍历和对象遍历
+针对js各种遍历作一个总结分析，从类型用处：分数组遍历和对象遍历；还有性能，优缺点等。
+JS数组遍历：
+
+1. 普通`for`、`while`、`do-while`、`for-in`循环，经常用的数组遍历
+```js
+var arr = [1,2,0,3,9];
+//for
+for ( var i = 0; i < arr.length; i ++){
+    console.log(arr[i]);
+}
+//while
+var k = 0;
+while(k < num.length){
+    console.log(arr[k]);
+    k ++;
+}
+//do-while
+var k = 0;
+do{
+    console.log(arr[k]);
+    k ++;
+}while(k < num.length)
+//for-in
+var i;
+for(i in arr){
+    console.log(arr[i]);
+}
+```
+2. 优化版`for`循环:使用变量，将长度缓存起来，避免重复获取长度，数组很大时优化效果明显
+```js
+for(var j = 0,len = arr.length; j < len; j++){
+    console.log(arr[j]);
+}
+```
+3. `forEach`，`ES5`推出的,数组自带的循环，主要功能是遍历数组，实际性能比for还弱
+```js
+arr.forEach(function(value,i){
+　　console.log('forEach遍历:'+i+'--'+value);
+
+})
+```
+`forEach`这种方法也有一个小缺陷：你不能使用`break`语句中断循环，也不能使用return语句返回到外层函数。
+
+4. `map`遍历，`map`即是 “映射”的意思 用法与 `forEach` 相似
+```js
+arr.map(function(value,index){
+    console.log('map遍历:'+index+'--'+value);
+});
+```
+`map`遍历支持使用`return`语句，支持`return`返回值
+```js
+var temp=arr.map(function(val,index){
+    console.log(val);  
+    return val*val           
+})
+console.log(temp);  
+```
+`forEach`、`map`都是`ECMA5`新增数组的方法，所以ie9以下的浏览器还不支持
+
+5. `for-of`遍历 是`ES6`新增功能
+```js
+for( let i of arr){
+    console.log(i);
+}
+```
+
+`for-of`这个方法避开了`for-in`循环的所有缺陷,与forEach()不同的是，它可以正确响应`break`、`continue`和`return`语句;
+
+`for-of`循环不仅支持数组，还支持大多数类数组对象，例如`DOM NodeList`对象。
+`for-of`循环也支持字符串遍历.
+
+### JS对象遍历：
+1. for-in遍历
+
+for-in是为遍历对象而设计的，不适用于遍历数组。
+
+遍历数组的缺点：数组的下标index值是数字，for-in遍历的index值"0","1","2"等是字符串
+```js
+for (var index in arr){
+    console.log(arr[index]);
+    console.log(index);
+}
+```
+使用Object.keys()遍历  
+    
+    返回一个数组,包括对象自身的(不含继承的)所有可枚举属性(不含Symbol属性).
