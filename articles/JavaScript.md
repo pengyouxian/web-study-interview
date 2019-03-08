@@ -29,24 +29,27 @@
 
 这里来举个栗子，以Object为例，我们常用的Object便是一个构造函数，因此我们可以通过它构建实例。
 
-```
+```js
 // 实例
 const instance = new Object()
 ```
 则此时， **实例**为`instance`, **构造函数**为`Object`，我们知道，构造函数拥有一个`prototype`的属性指向原型，因此原型为:
-```
+```js
 // 原型
 const prototype = Object.prototype
 ```
 这里我们可以来看出三者的关系:
-```
+```js
+/* 
 实例.__proto__ === 原型
-
 原型.constructor === 构造函数
-
 构造函数.prototype === 原型
-
-实例.constructorr === 构造函数
+实例.constructorr === 构造函数 
+*/
+instance.__proto__ === prototype 
+prototype.constructor === Object
+Object.prototype === prototype
+instance.constructor === Object
 ```
 ![GitHub Logo](/img/原型和原型链.jpg)
 
@@ -85,7 +88,7 @@ const prototype = Object.prototype
 
 - **声明提前**: 一个声明在函数体内都是可见的, 函数优先于变量
 - 非匿名自执行函数，函数变量为 只读 状态，无法修改
-```
+```js
 const foo = 1
 (function foo() {
     foo = 10  // 由于foo在函数中只为可读，因此赋值无效
@@ -124,7 +127,7 @@ const foo = 1
 - 返回新对象
 ## 10. instanceof原理
 能在实例的 **原型对象链** 中找到该构造函数的`prototype`属性所指向的 **原型对象**，就返回`true`。即:
-```
+```js
 // __proto__: 代表原型对象链
 instance.[__proto__...] === instance.constructor.prototype
 
@@ -140,7 +143,7 @@ instance.[__proto__...] === instance.constructor.prototype
 ## 12. 继承
 在 JS 中，继承通常指的便是 **原型链继承**，也就是通过指定原型，并可以通过原型链继承原型上的属性或者方法。
 - 最优化: 圣杯模式 
-```
+```js
 var inherit = (function(c,p){
     var F = function(){};
     return function(c,p){
@@ -179,7 +182,7 @@ JS 中在使用运算符号或者对比符时，会自带隐式转换，规则�
 - 判断已知对象类型的方法 `instanceof`
 - 其余引用类型(`Array` / `Date` / `RegExp` `Error`): 调用`toString`后根据`[object XXX]`进行判断
 很稳的判断封装:
-```
+```js
 let class2type = {}
 'Array Date RegExp Object Error'.split(' ').forEach(
     e => class2type[ '[object ' + e + ']' ] = e.toLowerCase()
@@ -214,7 +217,7 @@ function type(obj) {
 - `bind: fn.bind(target)(1,2)`
 ## 18. AST
 **抽象语法树 (Abstract Syntax Tree)**，是将代码逐字母解析成 **树状对象** 的形式。这是语言之间的转换、代码语法检查，代码风格检查，代码格式化，代码高亮，代码错误提示，代码自动补全等等的基础。例如:
-```
+```js
 function square(n){
     return n * n
 }
@@ -227,7 +230,7 @@ function square(n){
 - 新 AST 通过 babel-generator 转换成 ES5
 ## 20. 函数柯里化
 在一个函数中，首先填充几个参数，然后再返回一个新的函数的技术，称为函数的柯里化。通常可用于在不侵入函数的前提下，为函数 **预置通用参数**，供多次重复调用。
-```
+```javascript {.line-numbers}
 const add = function add(x) {
     return function (y) {
         return x + y
@@ -255,15 +258,125 @@ add1(20) === 21
 - `indexOf / lastIndexOf(value, fromIndex)`: 查找数组项，返回对应的下标
 - `reduce / reduceRight(fn(prev, cur)， defaultPrev)`: 两两执行，prev 为上次化简函数的return值，cur 为当前值(从第二项开始)
 - 数组乱序：
-```
+```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 arr.sort(function () {
     return Math.random() - 0.5;
 });
 ```
 - 数组拆解: flat: [1,[2,3]] --> [1, 2, 3]
-```
+```js
 arr.prototype.flat = function() {
     this.toString().split(',').map(item => +item )
 }
+```
+### 数组遍历和对象遍历
+针对js各种遍历作一个总结分析，从类型用处：分数组遍历和对象遍历；还有性能，优缺点等。
+JS数组遍历：
+
+1. 普通`for`、`while`、`do-while`、`for-in`循环，经常用的数组遍历
+```js
+var arr = [1,2,0,3,9];
+//for
+for ( var i = 0; i < arr.length; i ++){
+    console.log(arr[i]);
+}
+//while
+var k = 0;
+while(k < num.length){
+    console.log(arr[k]);
+    k ++;
+}
+//do-while
+var k = 0;
+do{
+    console.log(arr[k]);
+    k ++;
+}while(k < num.length)
+//for-in
+var i;
+for(i in arr){
+    console.log(arr[i]);
+}
+```
+2. 优化版`for`循环:使用变量，将长度缓存起来，避免重复获取长度，数组很大时优化效果明显
+```js
+for(var j = 0,len = arr.length; j < len; j++){
+    console.log(arr[j]);
+}
+```
+3. `forEach`，`ES5`推出的,数组自带的循环，主要功能是遍历数组，实际性能比for还弱
+```js
+arr.forEach(function(value,i){
+　　console.log('forEach遍历:'+i+'--'+value);
+
+})
+```
+`forEach`这种方法也有一个小缺陷：你不能使用`break`语句中断循环，也不能使用return语句返回到外层函数。
+
+4. `map`遍历，`map`即是 “映射”的意思 用法与 `forEach` 相似
+```js
+arr.map(function(value,index){
+    console.log('map遍历:'+index+'--'+value);
+});
+```
+`map`遍历支持使用`return`语句，支持`return`返回值
+```js
+var temp=arr.map(function(val,index){
+    console.log(val);  
+    return val*val           
+})
+console.log(temp);  
+```
+`forEach`、`map`都是`ECMA5`新增数组的方法，所以ie9以下的浏览器还不支持
+
+5. `for-of`遍历 是`ES6`新增功能
+```js
+for( let i of arr){
+    console.log(i);
+}
+```
+
+`for-of`这个方法避开了`for-in`循环的所有缺陷,与forEach()不同的是，它可以正确响应`break`、`continue`和`return`语句;
+
+`for-of`循环不仅支持数组，还支持大多数类数组对象，例如`DOM NodeList`对象。
+`for-of`循环也支持字符串遍历.
+
+### JS对象遍历：
+1. for-in遍历  
+
+for-in是为遍历对象而设计的，不适用于遍历数组。
+遍历数组的缺点：数组的下标index值是数字，for-in遍历的index值"0","1","2"等是字符串
+```js
+for (var index in arr){
+    console.log(arr[index]);
+    console.log(index);
+}
+```
+2. 使用Object.keys()遍历  
+
+返回一个数组,包括对象自身的(不含继承的)所有可枚举属性(不含Symbol属性).
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Object.keys(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
+```
+3. 使用Object.getOwnPropertyNames(obj)遍历
+
+返回一个数组,包含对象自身的所有属性(不含Symbol属性,但是包括不可枚举属性).
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Object.getOwnPropertyNames(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
+```
+4. 使用Reflect.ownKeys(obj)遍历
+
+返回一个数组,包含对象自身的所有属性,不管属性名是Symbol或字符串,也不管是否可枚举.  
+```js
+var obj = {'0':'a','1':'b','2':'c'};
+Reflect.ownKeys(obj).forEach(function(key){
+    console.log(key,obj[key]);
+});
 ```

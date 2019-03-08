@@ -30,7 +30,7 @@ generator.next()  // { value: 'ending', done: true }
 
 generator.next()  // { value: undefined, done: true }
 ```
-```
+```js
 - `await / async`: 是`generator`的语法糖， babel中是基于`promise`实现。
 
 //...js

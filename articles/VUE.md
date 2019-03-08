@@ -22,7 +22,7 @@
     - `initInjection`/`initState`: 初始化注入和 data 响应性
     - `created`: 创建完成，属性已经绑定， 但还未生成真实dom
     - 进行元素的挂载： `$el / vm.$mount()`
-    - `是否有template`: 解析成`render function`
+    - 是否有`template`: 解析成`render function`
         - `*.vue`文件: `vue-loader`会将`<template>`编译成`render function` 
     - `beforeMount`: 模板编译/挂载之前
     -  执行`render function`，生成真实的`dom`，并替换到`dom tree`中
@@ -42,7 +42,7 @@
         - `vm.$off()`: 解绑监听
     - `destroyed`: 完成后触发钩子
 上面是`vue`的声明周期的简单梳理，接下来直接以代码的形式来完成`vue`的**初始化**:
-```
+```js {.line-numbers}
 new Vue({})
 
 // 初始化Vue实例
@@ -139,7 +139,7 @@ Vue.prototype.$destory = function() {
         - `watcher.run()`
         - `updateComponent()`
 大家可以先看下面的数据相应的代码实现后，理解后就比较容易看懂上面的简单脉络了。
-```
+```js {.line-numbers}
 let data = {a: 1}
 // 数据响应性
 observe(data)
@@ -239,7 +239,7 @@ class Watcher {
     - 遍历`patchs`， 把需要更改的节点取出来
     - 局部更新`dom`
 代码实现：
-```
+```js {.line-numbers}
 // diff算法的实现
 function diff(oldTree, newTree) {
      // 差异收集
@@ -370,7 +370,7 @@ function diffList(oldList, newList, index, pathchs) {
 ## Proxy 相比于 defineProperty 的优势
 - 数组变化也能监听到
 - 不需要深度遍历监听
-```
+```js {.line-numbers}
 let data = { a: 1 }
 let reactiveData = new Proxy(data, {
     get: function(target, name){
