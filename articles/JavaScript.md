@@ -245,7 +245,20 @@ add1(20) === 21
 ## 21. 数组(array)
 - `map`: 遍历数组，返回回调返回值组成的新数组
 - `forEach`: 无法`break`，可以用`try/catch`中`throw new Error`来停止
-- `filter`: 过滤
+- `filter`: 过滤、筛选,会返回过滤后的新数组。用法跟 map 极为相似：
+    ```js
+    arry.filter(function(item, index, array) {
+
+    });
+    ```
+    `filter`的`callback`函数，需要返回布尔值`true`或`false`。返回值只要**弱等于**`Boolean`就行，看下面这个例子：
+    ```js
+    const data = [0, 1, 2, 3];
+    const arrayFilter = data.filter(function(item) {
+        return item;
+    });
+    console.log(arrayFilter); // [1, 2, 3]
+    ```
 - `some`: 有一项返回`true`，则整体为`true`
 - `every`: 有一项返回`false`，则整体为`false`
 - `join`: 通过指定连接符生成字符串
