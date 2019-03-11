@@ -1,5 +1,10 @@
 # nodejs
 ---
+# node开发技能图解
+![](/img/node开发技能图解.jpg)
+
+[🔗.node.js面试题大全－侧重后端应用与对Node核心的理解](https://www.cnblogs.com/meteorcn/p/node_mianshiti_interview_question.html)
+
 ## 1.Nodejs的优缺点
 **优点**：
 - 事件驱动，通过闭包很容易实现客户端的生命活期。
@@ -23,6 +28,8 @@ fs.readFile(filePath, function(err, data){
     console.log(data);
 });
 ```
+Q: node API中的 **回调函数** 的参数都遵循什么惯例？
+A: `err`一般为第一个参数，这被称为 **错误优先的回调函数**
 ## 3.如何避免回调地狱？
 以下方式避免回调地狱:
 - 模块化：将回调函数转换为独立的函数
@@ -45,3 +52,5 @@ new Promise((resolve, reject) =>{
 ## 5.使用NPM有哪些好处？
 - 通过NPM，你可以安装和管理项目的依赖，并且能够指明依赖项的具体版本号。
 - 对于Node应用开发而言，可以通过package.json文件来管理项目信息，配置脚本，以及指明依赖的具体版本
+## 6.node有哪些核心模块?
+- `EventEmitter`, `Stream`, `FS`, `Net`和 **全局对象**(`global`)
