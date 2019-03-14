@@ -1,5 +1,12 @@
 # nodejs
 ---
+
+从Node.js进入我们的视野时，我们所知道的它就由这些关键字组成 事件驱动、非阻塞I/O、高效、轻量，它在官网中也是这么描述自己的。
+
+Node.js® is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+
+---
+
 # node开发技能图解
 ![](/img/node开发技能图解.jpg)
 
