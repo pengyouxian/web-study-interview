@@ -393,3 +393,19 @@ Reflect.ownKeys(obj).forEach(function(key){
     console.log(key,obj[key]);
 });
 ```
+
+如何让页面上的所有图片全部隐藏？
+```js
+let imglist = document.getElementsByTagName('img')
+imglist instanceof Object === true
+Object.prototype.toString.call(imglist) // "[object HTMLCollection]"
+// imglist.map((value,index)=>{
+//     imglist[index].style.display = 'none'
+// })
+// for(index in imglist){
+//     imglist[index].style.display = 'none'
+// }
+Object.getOwnPropertyNames(imglist).forEach((key)=>{
+    imglist[key].style.display = 'none'
+})
+```
