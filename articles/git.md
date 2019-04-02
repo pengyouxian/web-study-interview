@@ -9,5 +9,5 @@ git merge origin/远程
 git checkout 远程  
 git pull --rebase  
 git merge 本地  
-it push origin HEAD:refs/for/远程
+git push origin HEAD:refs/for/远程
 
