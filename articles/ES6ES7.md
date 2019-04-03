@@ -1,15 +1,21 @@
 # ES6/ES7
+
 由于 Babel 的强大和普及，现在 ES6/ES7 基本上已经是现代化开发的必备了。通过新的语法糖，能让代码整体更为简洁和易读。
 
 ## 变量的声明
+
 ### Deconstruction: 解构赋值
+
 解构赋值允许你使用类似数组或对象字面量的语法将数组和对象的属性赋给各种变量。这种赋值语法极度简洁，同时还比传统的属性访问方法更为清晰。传统的访问数组前三个元素的方式为：
+
 ```js
 var first = someArray[0];
 var second = someArray[1];
 var third = someArray[2];
 ```
+
 而通过解构赋值的特性，可以变为：
+
 ```js
 var [first, second, third] = someArray;
 ```
@@ -101,8 +107,8 @@ var a, b;
 console.log(a, b);
 // => 1 2
 
-// This due to the grammar in JS. 
-// Starting with { implies a block scope, not an object literal. 
+// This due to the grammar in JS.
+// Starting with { implies a block scope, not an object literal.
 // () converts to an expression.
 
 // From Harmony Wiki:
@@ -224,75 +230,113 @@ var users = [
 // => Name3 4
 ```
 
+## ES6 函数的新特性
+
+### rest 参数
+
+ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用 arguments 对象了。rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。  
+剩余参数用法：`function fn([arg, ] ...restArgs){}`  
+**注意：rest 参数后不能有其他参数**
+
+```js
+function fn(foo, ...rest) {
+  console.log(`foo: ${foo}`);
+  console.log(`Rest Arguments: ${rest.join(",")}`);
+}
+fn(1, 2, 3, 4, 5); //foo: 1 //Rest Arguments: 2,3,4,5
+```
+
+### 函数默认参数
+
+```js
+function calc(x = 0, y = 0) {
+  // ...
+  console.log(x, y);
+}
+```
+
 ### 模版字符串
 
 ```js
 $("#result").append(
-"He is <b>"+person.name+"</b>"+"and we wish to know his"+person.age+".That is all" 
+  "He is <b>" +
+    person.name +
+    "</b>" +
+    "and we wish to know his" +
+    person.age +
+    ".That is all"
 );
 ```
+
 ```js
 $("#result").append(
-`He is <b>${person.name}</b>and we wish to know his${person.age}.that is all`
+  `He is <b>${person.name}</b>and we wish to know his${person.age}.that is all`
 );
 ```
+
 在模板语法中调用函数：
+
 ```js
-function string(){
-    return "zzw likes es6!";
+function string() {
+  return "zzw likes es6!";
 }
 console.log(`你想说什么?
             嗯，${string()}`);
 ```
 
-
 ## 属性的简洁表示法
-比如下面这样，我们想把一个名为 listeners 的数组赋值给events对象中的listeners属性，用ES5我们会这样做：
+
+比如下面这样，我们想把一个名为 listeners 的数组赋值给 events 对象中的 listeners 属性，用 ES5 我们会这样做：
+
 ```js
-var listeners = []
+var listeners = [];
 function listen() {}
 var events = {
   listeners: listeners,
   listen: listen
-}
+};
 ```
-ES6则允许我们简写成下面这种形式：
+
+ES6 则允许我们简写成下面这种形式：
+
 ```js
-var listeners = []
+var listeners = [];
 function listen() {}
-var events = { listeners, listen }
+var events = { listeners, listen };
 ```
 
 - 声明
-    - let / const: 块级作用域、不存在变量提升、暂时性死区、不允许重复声明
-    - const: 声明常量，无法修改
+  - let / const: 块级作用域、不存在变量提升、暂时性死区、不允许重复声明
+  - const: 声明常量，无法修改
 - 解构赋值
 - `class / extend`: 类声明与继承
 - `Set / Map`: 新的数据结构
 - 异步解决方案:
-    - Promise的使用与实现
-    - generator:
-        ```
-        - `yield`: 暂停代码 
-        - `next()`: 继续执行代码
-        ```
+  - Promise 的使用与实现
+  - generator:
+    ```
+    - `yield`: 暂停代码
+    - `next()`: 继续执行代码
+    ```
+
 ```js
 function* helloWorld() {
-  yield 'hello';
-  yield 'world';
-  return 'ending';
+  yield "hello";
+  yield "world";
+  return "ending";
 }
 
 const generator = helloWorld();
 
-generator.next()  // { value: 'hello', done: false }
+generator.next(); // { value: 'hello', done: false }
 
-generator.next()  // { value: 'world', done: false }
+generator.next(); // { value: 'world', done: false }
 
-generator.next()  // { value: 'ending', done: true }
+generator.next(); // { value: 'ending', done: true }
 
-generator.next()  // { value: undefined, done: true }
+generator.next(); // { value: undefined, done: true }
 ```
+
 ```js
 - `await / async`: 是`generator`的语法糖， babel中是基于`promise`实现。
 
@@ -306,5 +350,3 @@ const user = await getUserByAsync()
 console.log(user)
 //...
 ```
-
-

@@ -1,7 +1,11 @@
 # git 常用命令
 
+git branch -a
+git checkout 远程
+
 - 更新代码：  
-在本地分如下操作：  
+在**本地分支**如下操作：  
+
 git fetch origin 远程  
 git merge origin/远程
 
