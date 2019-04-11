@@ -79,6 +79,17 @@ var {user: x} = {user: 5};
 console.log(x);
 // => 5
 
+let title = "ES6"
+let price = 20
+let publish = "出版社"
+ 
+let book = {
+    title,price,publish,
+    toString() {
+        console.log(`<<${this.title}>> is ${price}元。`);
+    }
+};
+
 
 // Fail-safe
 var {user: x} = {user2: 5};
