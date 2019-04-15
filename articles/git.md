@@ -3,6 +3,13 @@
 git branch -a
 git checkout 远程
 
+
+- 创建本地分支并切换过去：
+$ git branch iss53
+$ git checkout iss53
+
+
+
 - 更新代码：  
 在**本地分支**如下操作：  
 
