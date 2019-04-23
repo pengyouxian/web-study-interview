@@ -180,7 +180,8 @@ JS 中在使用运算符号或者对比符时，会自带隐式转换，规则�
 - 基本类型(`null`): 使用 `String(null)`
 - 基本类型(`string` / `number` / `boolean` / `undefined`) + `function`: 直接使用 `typeof`即可
 - 判断已知对象类型的方法 `instanceof`
-- 其余引用类型(`Array` / `Date` / `RegExp` `Error`): 调用`toString`后根据`[object XXX]`进行判断
+- 其余引用类型(`Array` / `Date` / `RegExp` `Error`): 调用`toString`后根据`[object XXX]`进行判断  
+
 很稳的判断封装:
 ```js
 let class2type = {}
