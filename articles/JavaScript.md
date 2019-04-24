@@ -195,6 +195,27 @@ function type(obj) {
         ? class2type[ Object.prototype.toString.call(obj) ] || 'object' : typeof obj
 }
 ```
+**原理**：
+```js
+Object.toString()//"function Object() { [native code] }"
+Object.prototype.toString()//"[object Object]"
+```
+`Object`对象和它的原型链上各自有一个`toString()`方法，第一个返回的是一个函数，第二个返回的是值类型。  
+既然知道了不同，现在再来分析下`Object.prototype.toString.call(Array)//"[object Function]"`。  
+`Array`对象本身返回一个构造函数，  
+`Array//ƒ Array() { [native code] }`，  
+而`Object.prototype.toString()`返回的是`//"[object Type]"`的形式，  
+通过`call`将`Array`的`this上`下文切换到`Object`，从而调用了`Object.prototype.toString()`，  
+因此返回`[object Function]`。
+
+那么不可以直接`Array.prototype.toString.call([1,3,4])`吗？
+不行！
+因为`Array`，`Function`，`Date`虽然是基于`Object`进行创建的，但是他们继承的是`Object.toString()`，而不是`Object.prototype.toString()`。
+```js
+Array.toString()       // "function Array() { [native code] }"
+Array.prototype.toString()          // ""
+```
+
 ## 16. 模块化
 模块化开发在现代开发中已是必不可少的一部分，它大大提高了项目的可维护、可拓展和可协作性。通常，__我们 在浏览器中使用 ES6 的模块化支持，在 Node 中使用 commonjs 的模块化支持__。
 - 分类:
