@@ -20,8 +20,8 @@
 - [AST](#18-AST)
 - [babel编译原理](#19-babel编译原理)
 - [函数柯里化](#20-函数柯里化)
-- [数组(array)](#21-数组(array))
-- [作用域链](#22-作用域链)
+- [数组](#21-数组)
+- [String](#22-String)
 ## 1. 原型/构造函数/实例
 - **原型**`(prototype)`: 一个简单的对象，用于实现对象的**属性继承**。可以简单的理解成对象的爹。在 Firefox 和 Chrome 中，每个`JavaScript`对象中都包含一个`__proto__ `(非标准)的属性指向它爹(该对象的原型)，可`obj.__proto__`进行访问。
 - **构造函数**: 可以通过`new`来 __新建一个对象__ 的函数。
@@ -264,32 +264,57 @@ const add1 = add(1)
 add1(2) === 3
 add1(20) === 21
 ```
-## 21. 数组(array)
+## 21. 数组
 - `map`: 遍历数组，返回回调返回值组成的新数组  
     `array.map(function(currentValue, index, arr), thisValue)`
-- `forEach`: 无法`break`，可以用`try/catch`中`throw new Error`来停止
+- `forEach`: 无法`break`，可以用`try/catch`中`throw new Error`来停止  
     `array.forEach(function(currentValue, index, arr), thisValue)`
 - `filter`: 过滤、筛选,会返回过滤后的新数组。用法跟 map 极为相似：
     `array.filter(function(currentValue, index, arr), thisValue)`
     `filter`的`callback`函数，需要返回布尔值`true`或`false`。返回值只要**弱等于**`Boolean`就行，看下面这个例子：
-    ```js
-    const data = [0, 1, 2, 3];
-    const arrayFilter = data.filter(function(item) {
-        return item;
-    });
-    console.log(arrayFilter); // [1, 2, 3]
-    ```
+```js
+const data = [0, 1, 2, 3];
+const arrayFilter = data.filter(function(item) {
+    return item;
+});
+console.log(arrayFilter); // [1, 2, 3]
+```
 - `some`: 有一项返回`true`，则整体为`true`
 - `every`: 有一项返回`false`，则整体为`false`
 - `join`: 通过指定连接符生成字符串
+```js
+var arr = ["George","John","Thomas"]
+arr.join("-")       // George-John-Thomas
+```
 - `push / pop`: 末尾推入和弹出，改变原数组， 返回推入/弹出项
 - `unshift / shift`: 头部推入和弹出，改变原数组，返回操作项
 - `sort(fn) / reverse`: 排序与反转，改变原数组
 - `concat`: 连接数组，不影响原数组， 浅拷贝
 - `slice(start, end)`: 返回截断后的新数组，不改变原数组
+```js
+var arr = ["George", "John", "Thomas", "James", "Adrew", "Martin"]
+arr.slice(2,4) 
+// ["Thomas", "James"]
+arr
+// ["George", "John", "Thomas", "James", "Adrew", "Martin"]
+```
 - `splice(start, number, value...)`: 返回删除元素组成的数组，value 为插入项，改变原数组
+```js
+arrayObject.splice(index,howmany,item1,.....,itemX)
+// index 	必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置。
+// howmany 	必需。要删除的项目数量。如果设置为 0，则不会删除项目。
+// item1, ..., itemX 	可选。向数组添加的新项目。
+var arr = ["George","John","Thomas", "James"]
+arr.splice(2,0,"William")
+// "George","John","Thomas","William", "James"
+arr.splice(2,1,"William")
+// ["George", "John", "William", "James"]
+arr.splice(2,3,"William")
+// ["Thomas", "James"]
+```
 - `indexOf / lastIndexOf(value, fromIndex)`: 查找数组项，返回对应的下标
-- `reduce / reduceRight(fn(prev, cur)， defaultPrev)`: 两两执行，prev 为上次化简函数的return值，cur 为当前值(从第二项开始)
+- `reduce / reduceRight(fn(prev, cur)， defaultPrev)`:   
+两两执行，prev 为上次化简函数的return值，cur 为当前值(从第二项开始)
 - 数组乱序：
 ```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -297,7 +322,7 @@ arr.sort(function () {
     return Math.random() - 0.5;
 });
 ```
-- 数组拆解: flat: [1,[2,3]] --> [1, 2, 3]
+- 数组拆解: `flat: [1,[2,3]] --> [1, 2, 3]`
 ```js
 arr.prototype.flat = function() {
     this.toString().split(',').map(item => +item )
@@ -429,3 +454,29 @@ Object.getOwnPropertyNames(imglist).forEach((key)=>{
     imglist[key].style.display = 'none'
 })
 ```
+## 22. String
+- `slice()`: 提取字符串的片断，并在新的字符串中返回被提取的部分。
+```js
+stringObject.slice(start,end)
+// start 	要抽取的片断的起始下标。如果是负数，则该参数规定的是从字符串的尾部开始算起的位置。也就是说，-1 指字符串的最后一个字符，-2 指倒数第二个字符，以此类推。
+// end 	紧接着要抽取的片段的结尾的下标。若未指定此参数，则要提取的子串包括 start 到原字符串结尾的字符串。如果该参数是负数，那么它规定的是从字符串的尾部开始算起的位置。
+
+var str="Hello happy world!"
+str.slice(6)    // happy world!
+str.slice(6,11)     // happy
+```
+- `split()`: 把字符串分割为字符串数组。
+```js
+// 手写一个cookie解析的方法
+const parseCookie = function(str){
+    let ckArr = document.cookie.split(';')
+    for(let i=0;i<ckArr.length;i++){
+        if(ckArr[i].indexOf(str)!==-1){
+            return ckArr[i].split("=")[1]
+        }
+    }
+}
+
+```
+- `substr()`: 从起始索引号提取字符串中指定数目的字符。
+- `substring()`: 提取字符串中两个指定的索引号之间的字符。
