@@ -292,9 +292,17 @@ arr.join("-")       // George-John-Thomas
 - `concat`: 连接数组，不影响原数组， 浅拷贝
 - `slice(start, end)`: 返回截断后的新数组，不改变原数组
 ```js
+// start 必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。
+// end 可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。
+
 var arr = ["George", "John", "Thomas", "James", "Adrew", "Martin"]
-arr.slice(2,4) 
-// ["Thomas", "James"]
+arr.slice(2,0)  // []
+arr.slice(2,1)  // []
+arr.slice(2,2)  // []
+arr.slice(2,3)  // ["Thomas"]
+arr.slice(2,4)  // ["Thomas", "James"]
+arr.slice(2,5)  // ["Thomas", "James", "Adrew"]
+arr.slice(2,6)  // ["Thomas", "James", "Adrew", "Martin"]
 arr
 // ["George", "John", "Thomas", "James", "Adrew", "Martin"]
 ```
