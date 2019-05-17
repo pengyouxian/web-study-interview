@@ -7,7 +7,7 @@
 
 > 正则表达式是一种被用于从文本中检索符合某些特定模式的文本。
 
-正则表达式是从左到右来匹配一个字符串的。"Regular Expression" 这个词太长了，我们通常使用它的缩写 "regex" 或者 "regexp"。
+正则表达式是从左到右来匹配一个字符串的。"Regular Expression"(Regular: adj.规则的; Expression: n.表示;表达;) 这个词太长了，我们通常使用它的缩写 "regex" 或者 "regexp"。
 正则表达式可以被用来替换字符串中的文本、验证表单、基于模式匹配从一个字符串中提取字符串等等。
 <br />
 
@@ -17,6 +17,7 @@
 <p align="center">
 <img src="https://i.imgur.com/UrDb9qc.png" alt="Regular expression">
 </p>
+(letters: n. 信;函;字母;underscore: v. 在…下面划线;强调;着重说明;n. 下划线，底线(用于字母下划线或计算机命令和互联网地址中) ;hyphen:n.连字符 ;)
 
 上面这个正则表达式可以匹配 `john_doe`，`jo-hn\_doe` 和 `john12\_as`。但是它不能匹配 `Jo`，因为该字符串里面包含了大写字符，并且它太短了。
 
