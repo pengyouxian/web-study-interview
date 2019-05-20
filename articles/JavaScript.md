@@ -323,6 +323,16 @@ arr.splice(2,3,"William")
 - `indexOf / lastIndexOf(value, fromIndex)`: 查找数组项，返回对应的下标
 - `reduce / reduceRight(fn(prev, cur)， defaultPrev)`:   
 两两执行，prev 为上次化简函数的return值，cur 为当前值(从第二项开始)
+- `fill()`方法用于将一个固定值替换数组的元素
+```js
+array.fill(value, start, end)
+// alue 	必需。填充的值。
+// start 	可选。开始填充位置。
+// end 	可选。停止填充位置 (默认为 array.length)
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.fill("Runoob");       // Runoob,Runoob,Runoob,Runoob 
+```
 - 数组乱序：
 ```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
