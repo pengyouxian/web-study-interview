@@ -333,6 +333,7 @@ array.fill(value, start, end)
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 fruits.fill("Runoob");       // Runoob,Runoob,Runoob,Runoob 
 ```
+- `find()` 用于找出数组中符合条件的第一个元素，并不是用于遍历数组
 - 数组乱序：
 ```js
 var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
