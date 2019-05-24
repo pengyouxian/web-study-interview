@@ -325,7 +325,8 @@ var events = { listeners, listen };
   - const: 声明常量，无法修改
 - 解构赋值
 - `class / extend`: 类声明与继承
-- `Set / Map`: 新的数据结构
+- `Set / Map`: 新的数据结构  
+[🔗.JavaScript数组去重：ES6的两种方式](https://segmentfault.com/a/1190000011861891)
 - 异步解决方案:
   - Promise 的使用与实现
   - generator:
