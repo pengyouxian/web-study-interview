@@ -157,7 +157,8 @@ var inherit = (function(c,p){
 - 使用 ES6 的语法糖 `class` / `extends` 
 ## 13. 对象的拷贝
 - 浅拷贝: 以赋值的形式拷贝引用对象，仍指向同一个地址，修改时原对象也会受到影响
-    - `Object.assign`
+    - `Object.assign()`   
+    用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
     - 展开运算符(...)
 - 深拷贝: 完全拷贝一个新对象，修改时原对象不再受到任何影响
     - `JSON.parse(JSON.stringify(obj))`: 性能最快
