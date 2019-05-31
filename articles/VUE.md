@@ -9,364 +9,210 @@
 |v-bind:class="{ active: isActive }"|[class.selected]="flage == true"|
 都支持模板语法:  `<h1>{{title}}</h1>`
 
-## 1. nextTick
+1、active-class是哪个组件的属性？嵌套路由怎么定义？  
+答：vue-router模块的router-link组件。
+ 
+2、怎么定义vue-router的动态路由？怎么获取传过来的动态参数？   
+答：在router目录下的index.js文件中，对path属性加上/:id。   
+    使用router对象的params.id
+
+3、vue-router有哪几种导航钩子？    
+答：三种，   
+第一种是全局导航钩子：router.beforeEach(to,from,next)，作用：跳转前进行判断拦截。  
+第二种：组件内的钩子；  
+第三种：单独路由独享组件
+
+4、`vue-router`是什么？它有哪些组件？  
+答：vue用来写路由一个插件。`router-link`、`router-view`
+- **mode**
+    - `hash`
+    - `history`
+- **跳转**
+    - `this.$router.push()`
+    - `<router-link to=""></router-link>`
+- **占位**
+    - `<router-view></router-view>`
+
+5、mint-ui是什么？怎么使用？说出至少三个组件使用方法？  
+答：基于vue的前端组件库。  
+npm安装，然后import样式和js，vue.use（mintUi）全局引入。  
+在单个组件局部引入：`import {Toast} from 'mint-ui'`。  
+组件一：`Toast('登录成功')`；  
+组件二：`mint-header`；  
+组件三：`mint-swiper`
+
+6、v-model是什么？怎么使用？ vue中标签怎么绑定事件？  
+答：可以实现双向绑定，指令（`v-class`、`v-for`、`v-if`、`v-show`、`v-on`）。  
+vue的model层的data属性。绑定事件：`<input @click=doLog() />`
+
+7、axios是什么？怎么使用？描述使用它实现登录功能的流程？  
+答：请求后台资源的模块。  
+`npm install axios -S`装好，然后发送的是跨域，需在配置文件中config/index.js进行设置。  
+后台如果是Tp5则定义一个资源路由。js中使用import进来，然后.get或.post。返回在.then函数中如果成功，失败则是在.catch函数中
+
+8、axios+tp5进阶中，调用`axios.post('api/user')`是进行的什么操作？`axios.put('api/user/8′)`呢？  
+答：跨域，添加用户操作，更新操作。
+
+9、什么是RESTful API？怎么使用?  
+答：是一个api的标准，无状态请求。请求的路由地址是固定的，如果是tp5则先路由配置中把资源路由配置好。  
+标准有：.post .put .delete
+ 
+
+10、vuex是什么？怎么使用？哪种功能场景使用它？  
+答：vue框架中状态管理。在main.js引入store，注入。新建了一个目录store，….. export 。  
+场景有：单页应用中，组件之间的状态。音乐播放、登录状态、加入购物车
+- `state`: 状态中心
+- `mutations`: 更改状态
+- `actions`: 异步更改状态
+- `getters`: 获取状态
+- `modules`: 将`state`分成多个`modules`，便于管理
+
+11、你是怎么认识vuex的？  
+答：vuex可以理解为一种开发模式或框架。比如PHP有thinkphp，java有spring等。  
+通过状态（数据源）集中管理驱动组件的变化（好比spring的IOC容器对bean进行集中管理）。  
+应用级的状态集中放在store中； 改变状态的方式是提交mutations，这是个同步的事物； 异步逻辑应该封装在action中。
+
+12、自定义指令（`v-check`、`v-focus`）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？  
+答：全局定义指令：在vue对象的`directive`方法里面有两个参数，一个是指令名称，另外一个是函数。  
+组件内定义指令：`directives`  
+钩子函数：`bind`（绑定事件触发）、`inserted`(节点插入的时候触发)、`update`（组件内相关更新）  
+钩子函数参数：`el`、`binding`
+ 
+13、说出至少4种vue当中的指令和它的用法？  
+答：`v-if`：判断是否隐藏；`v-for`：数据循环出来；  
+`v-bind:class`：绑定一个属性；`v-model`：实现双向绑定
+
+14、scss是什么？安装使用的步骤是？有哪几大特性？  
+答：预处理css，把css当前函数编写，定义变量,嵌套。   
+先装css-loader、node-loader、sass-loader等加载器模块，  
+在webpack-base.config.js配置文件中加多一个拓展:extenstion，  
+再加多一个模块：module里面test、loader
+
+4.1、scss是什么？在vue.cli中的安装使用步骤是？有哪几大特性？  
+答：css的预编译。
+
+使用步骤：
+第一步：用npm 下三个loader（sass-loader、css-loader、node-sass）  
+第二步：在build目录找到webpack.base.config.js，在那个extends属性中加一个拓展.scss  
+第三步：还是在同一个文件，配置一个module属性  
+第四步：然后在组件的style标签加上lang属性 ，例如：lang=”scss”  
+
+有哪几大特性:  
+1、可以用变量，例如（$变量名称=值）；  
+2、可以用混合器，例如（）  
+3、可以嵌套  
+ 
+15、导航钩子有哪些？它们有哪些参数？  
+答：导航钩子有：a/全局钩子和组件内独享的钩子。  
+b/beforeRouteEnter、afterEnter、beforeRouterUpdate、beforeRouteLeave
+
+参数：有to（去的那个路由）、from（离开的路由）、  
+next（一定要用这个函数才能去到下一个路由，如果不用就拦截）最常用就这几种
+
+16、Vue的双向数据绑定原理是什么？  
+答：vue.js 是采用数据劫持结合`发布者-订阅者模式`的方式，通过`Object.defineProperty()`来劫持各个属性的`setter`，`getter`，在数据变动时发布消息给订阅者，触发相应的监听回调。  
+具体步骤：  
+第一步：需要`observe`的数据对象进行递归遍历，包括子属性对象的属性，都加上 `setter`和`getter`
+这样的话，给这个对象的某个值赋值，就会触发`setter`，那么就能监听到了数据变化  
+第二步：`compile`解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图  
+第三步：`Watcher`订阅者是`Observer`和`Compile`之间通信的桥梁，主要做的事情是:  
+1、在自身实例化时往属性订阅器(dep)里面添加自己  
+2、自身必须有一个`update()`方法  
+3、待属性变动`dep.notice()`通知时，能调用自身的`update()`方法，并触发Compile中绑定的回调，则功成身退。  
+第四步：`MVVM`作为数据绑定的入口，整合`Observer`、`Compile`和`Watcher`三者，通过`Observer`来监听自己的`model`数据变化，通过`Compile`来解析编译模板指令，最终利用`Watcher`搭起`Observer`和`Compile`之间的通信桥梁，达到数据变化 -> 视图更新；视图交互变化`(input)` -> 数据`model`变更的双向绑定效果。
+
+ps：16题答案同样适合”vue data是怎么实现的？”此面试题。
+
+17、请详细说下你对`vue`生命周期的理解？  
+答：总共分为8个阶段**创建**前/后，**载入**前/后，**更新**前/后，**销毁**前/后。  
+**创建前/后**： 在`beforeCreated`阶段，`vue`实例的挂载元素`$el`和数据对象`data`都为`undefined`，还未初始化。在`created`阶段，`vue`实例的数据对象`data`有了，`$el`还没有。  
+**载入前/后**：在`beforeMount`阶段，`vue`实例的`$el`和`data`都初始化了，但还是挂载之前为虚拟的`dom`节点，`data.message`还未替换。在`mounted`阶段，`vue`实例挂载完成，`data.message`成功渲染。  
+**更新前/后**：当`data`变化时，会触发`beforeUpdate`和`updated`方法。  
+**销毁前/后**：在执行`destroy`方法后，对`data`的改变不会再触发周期函数，说明此时`vue`实例已经解除了事件监听以及和`dom`的绑定，但是`dom`结构依然存在.
+
+18、请说下封装 vue 组件的过程？  
+答：首先，组件可以提升整个项目的开发效率。能够把页面抽象成多个相对独立的模块，解决了我们传统项目开发：效率低、难维护、复用性等问题。  
+然后，使用Vue.extend方法创建一个组件，然后使用`Vue.component`方法注册组件。子组件需要数据，可以在`props`中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用`emit`方法。
+
+19、mvvm框架是什么？它和其它框架（`jquery`）的区别是什么？哪些场景适合？
+答：一个`model+view+viewModel`框架，数据模型`model`，`viewModel`连接两个  
+区别：vue数据驱动，通过数据来显示视图层而不是节点操作。  
+场景：数据操作比较多的场景，更加便捷  
+ 
+20、vue-loader是什么？使用它的用途有哪些？  
+答：解析.vue文件的一个加载器，跟template/js/style转换成js模块。  
+用途：js可以写es6、style样式可以scss或less、template可以加jade等
+
+21、请说出vue.cli项目中src目录每个文件夹和文件的用法？  
+答：assets文件夹是放静态资源；  
+components是放组件；  
+router是定义路由相关的配置;  
+view视图；  
+app.vue是一个应用主组件；  
+main.js是入口文件
+
+22、vue.cli中怎样使用自定义的组件？有遇到过哪些问题吗？  
+答：第一步：在`components`目录新建你的组件文件（`smithButton.vue`），script一定要`export default {`  
+第二步：在需要用的页面（组件）中导入：`import smithButton from '../components/smithButton.vue'`  
+第三步：注入到`vue`的子组件的`components`属性上面,`components:{smithButton}`  
+第四步：在`template`视图view中使用，`<smith-button>  </smith-button>`
+问题有：`smithButton`命名，使用的时候则`smith-button`。  
+ 
+
+23、聊聊你对Vue.js的`template`编译的理解？  
+答：简而言之，就是先转化成AST树，再得到的render函数返回VNode（`Vue`的虚拟`DOM`节点）  
+详情步骤：  
+首先，通过`compile`编译器把`template`编译成`AST`语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），`compile`是`createCompiler`的返回值，`createCompiler`是用以创建编译器的。另外`compile`还负责合并`option`。
+然后，`AST`会经过`generate`（将AST语法树转化成render funtion字符串的过程）得到`render`函数，`render`的返回值是`VNode`，`VNode`是`Vue`的虚拟`DOM`节点，里面有（标签名、子节点、文本等等）
+
+24、`Vuex`是什么？为什么使用`Vuex`？
+答：`Vuex` 类似 `Redux` 的状态管理器，用来管理Vue的所有组件状态。
+当你打算开发大型单页应用（`SPA`），会出现多个视图组件依赖同一个状态，来自不同视图的行为需要变更同一个状态。
+
+25、vuejs与angularjs的区别？  
+答：  
+一、定位 ：  
+虽然Vue.js被定义为MVC framework，但其实Vue本身还是一个library，加了一些其他的工具，可以被当成一个framework，而Angular 2虽然还是一个framework，但其实在设计之初，Angular 2的团队站在了更高的角度，希望做一个platform。
+
+二、文档：  
+vue.js的更加亲切
+
+三、性能：  
+angular所有的数据和方法都是挂载在$scope上。而vue的数据和方法都是挂载在vue上，只是数据挂载在vue的data,方法挂载在vue的methods上，vue的代码风格更加优雅，json格式书写代码。Vue.js 有更好的性能，并且非常非常容易优化，因为它不使用脏检查。Angular，当 watcher 越来越多时会变得越来越慢，因为作用域内的每一次变化，所有 watcher 都要重新计算。
+
+其它区别：  
+渲染性能：Vue> react >angular。  
+使用场景：Vue React 覆盖中小型，大型项目。angular 一般用于大型（因为比较厚重）。
+
+26、vue为什么不直接操作dom？  
+答：因为操作dom对象后，会触发一些浏览器行为，比如布局（layout）和绘制（paint）。  
+paint是一个耗时的过程，然而layout是一个更耗时的过程，我们无法确定layout一定是自上而下或是自下而上进行的，甚至一次layout会牵涉到整个文档布局的重新计算。浏览器的layout是lazy的，也就是说：在js脚本执行时，是不会去更新DOM的，任何对DOM的修改都会被暂存在一个队列中，在当前js的执行上下文完成执行后，会根据这个队列中的修改，进行一次layout。
+
+27、你怎么理解`vue`是一个渐进式的框架？  
+答：我觉得渐进式就是不必一开始就用`Vue`所有的全家桶，可以根据场景，按需使用想要的插件。也可以说就使用`vue`不需要太多的要求。
+
+28、`Vue`声明组件的`state`是用`data`方法，那为什么`data`是通过一个`function`来返回一个对象，而不是直接写一个对象呢？  
+答：从语法上说，如果不用`function`返回就会出现语法错误导致编译不通过。从原理上的话，大概就是组件可以被多次创建，如果不使用`function`就会使所有调用该组件的页面公用同一个数据域，这样就失去了组件的概念了
+
+
+29、说下vue组件之间的通信？  
+答：非父子组件间通信，Vue 有提供 Vuex，以状态共享方式来实现同信，对于这一点，应该注意考虑平衡，从整体设计角度去考量，确保引入她的必要。  
+父传子: `this.$refs.xxx`   
+子传父: `this.$parent.xxx`  
+还可以通过`$emit`方法出发一个消息，然后`$on`接收这个消息
+
+30、vue中mixin与extend区别？  
+答：全局注册混合对象，会影响到所有之后创建的vue实例，而Vue.extend是对单个实例进行扩展。  
+    mixin 混合对象（组件复用）
+同名钩子函数（`bind`，`inserted`，`update`，`componentUpdate`，`unbind`）将混合为一个数组，因此都将被调用，混合对象的钩子将在组件自身钩子之前调用
+`methods`，`components`，`directives`将被混为同一个对象。两个对象的键名（方法名，属性名）冲突时，取组件（而非mixin）对象的键值对
+
+31、 nextTick
 在下次`dom`更新循环结束之后执行延迟回调，可用于获取更新后的`dom`状态
 - 新版本中默认是`mincrotasks`, `v-on`中会使用`macrotasks`
 - `macrotasks`任务的实现:
     - `setImmediate / MessageChannel / setTimeout`
 
-## 2. 生命周期
-- `_init_`
-    - `initLifecycle/Event`，往`vm`上挂载各种属性
-    - `callHook`: `beforeCreated`: 实例刚创建
-    - `initInjection`/`initState`: 初始化注入和 data 响应性
-    - `created`: 创建完成，属性已经绑定， 但还未生成真实dom
-    - 进行元素的挂载： `$el / vm.$mount()`
-    - 是否有`template`: 解析成`render function`
-        - `*.vue`文件: `vue-loader`会将`<template>`编译成`render function` 
-    - `beforeMount`: 模板编译/挂载之前
-    -  执行`render function`，生成真实的`dom`，并替换到`dom tree`中
-    - `mounted`: 组件已挂载
-- `update`:
-    - 执行`diff`算法，比对改变是否需要触发UI更新
-    - `flushScheduleQueue`
-        - `watcher.before`: 触发`beforeUpdate`钩子 
-        - `watcher.run()`: 执行`watcher`中的 notify，通知所有依赖项更新UI
-    - 触发`updated`钩子: 组件已更新
-- `actived / deactivated(keep-alive)`: 不销毁，缓存，组件激活与失活
-- `destroy`:
-    - `beforeDestroy`: 销毁开始- 
-    - 销毁自身且递归销毁子组件以及事件监听
-        - `remove()`: 删除节点
-        - `watcher.teardown()`: 清空依赖
-        - `vm.$off()`: 解绑监听
-    - `destroyed`: 完成后触发钩子
-上面是`vue`的声明周期的简单梳理，接下来直接以代码的形式来完成`vue`的**初始化**:
-```js {.line-numbers}
-new Vue({})
-
-// 初始化Vue实例
-function _init() {
-     // 挂载属性
-    initLifeCycle(vm) 
-    // 初始化事件系统，钩子函数等
-    initEvent(vm) 
-    // 编译slot、vnode
-    initRender(vm) 
-    // 触发钩子
-    callHook(vm, 'beforeCreate')
-    // 添加inject功能
-    initInjection(vm)
-    // 完成数据响应性 props/data/watch/computed/methods
-    initState(vm)
-    // 添加 provide 功能
-    initProvide(vm)
-    // 触发钩子
-    callHook(vm, 'created')
-        
-     // 挂载节点
-    if (vm.$options.el) {
-        vm.$mount(vm.$options.el)
-    }
-}
-
-// 挂载节点实现
-function mountComponent(vm) {
-     // 获取 render function
-    if (!this.options.render) {
-        // template to render
-        // Vue.compile = compileToFunctions
-        let { render } = compileToFunctions() 
-        this.options.render = render
-    }
-    // 触发钩子
-    callHook('beforeMounte')
-    // 初始化观察者
-    // render 渲染 vdom， 
-    vdom = vm.render()
-    // update: 根据 diff 出的 patchs 挂载成真实的 dom 
-    vm._update(vdom)
-    // 触发钩子  
-    callHook(vm, 'mounted')
-}
-
-// 更新节点实现
-funtion queueWatcher(watcher) {
-    nextTick(flushScheduleQueue)
-}
-
-// 清空队列
-function flushScheduleQueue() {
-     // 遍历队列中所有修改
-    for(){
-        // beforeUpdate
-        watcher.before()
-         
-        // 依赖局部更新节点
-        watcher.update() 
-        callHook('updated')
-    }
-}
-
-// 销毁实例实现
-Vue.prototype.$destory = function() {
-     // 触发钩子
-    callHook(vm, 'beforeDestory')
-    // 自身及子节点
-    remove() 
-    // 删除依赖
-    watcher.teardown() 
-    // 删除监听
-    vm.$off() 
-    // 触发钩子
-    callHook(vm, 'destoryed')
-}
-```
-## 3. 数据响应(数据劫持)
-看完生命周期后，里面的`watcher`等内容其实是数据响应中的一部分。数据响应的实现由两部分构成: **观察者( watcher )** 和 **依赖收集器( Dep )**，其核心是 `defineProperty`这个方法，它可以 **重写属性的 get 与 set** 方法，从而完成监听数据的改变。
-- **Observe (观察者)**观察 props 与 state
-    - 遍历 props 与 state，对每个属性创建独立的监听器( watcher )
-- 使用 `defineProperty` 重写每个属性的 get/set(defineReactive）
-    - `get`: 收集依赖
-        - `Dep.depend()`
-            - `watcher.addDep()`
-    - `set`: 派发更新
-        - `Dep.notify()`
-        - `watcher.update()`
-        - `queenWatcher()`
-        - `nextTick`
-        - `flushScheduleQueue`
-        - `watcher.run()`
-        - `updateComponent()`
-大家可以先看下面的数据相应的代码实现后，理解后就比较容易看懂上面的简单脉络了。
-```js {.line-numbers}
-let data = {a: 1}
-// 数据响应性
-observe(data)
-
-// 初始化观察者
-new Watcher(data, 'name', updateComponent)
-data.a = 2
-
-// 简单表示用于数据更新后的操作
-function updateComponent() {
-    vm._update() // patchs
-}
-
-// 监视对象
-function observe(obj) {
-     // 遍历对象，使用 get/set 重新定义对象的每个属性值
-    Object.keys(obj).map(key => {
-        defineReactive(obj, key, obj[key])
-    })
-}
-
-function defineReactive(obj, k, v) {
-    // 递归子属性
-    if (type(v) == 'object') observe(v)
-    
-    // 新建依赖收集器
-    let dep = new Dep()
-    // 定义get/set
-    Object.defineProperty(obj, k, {
-        enumerable: true,
-        configurable: true,
-        get: function reactiveGetter() {
-              // 当有获取该属性时，证明依赖于该对象，因此被添加进收集器中
-            if (Dep.target) {
-                dep.addSub(Dep.target)
-            }
-            return v
-        },
-        // 重新设置值时，触发收集器的通知机制
-        set: function reactiveSetter(nV) {
-            v = nV
-            dep.nofify()
-        },
-    })
-}
-
-// 依赖收集器
-class Dep {
-    constructor() {
-        this.subs = []
-    }
-    addSub(sub) {
-        this.subs.push(sub)
-    }
-    notify() {
-        this.subs.map(sub => {
-            sub.update()
-        })
-    }
-}
-
-Dep.target = null
-
-// 观察者
-class Watcher {
-    constructor(obj, key, cb) {
-        Dep.target = this
-        this.cb = cb
-        this.obj = obj
-        this.key = key
-        this.value = obj[key]
-        Dep.target = null
-    }
-    addDep(Dep) {
-        Dep.addSub(this)
-    }
-    update() {
-        this.value = this.obj[this.key]
-        this.cb(this.value)
-    }
-    before() {
-        callHook('beforeUpdate')
-    }
-}
-```
-## 4. virtual dom 原理实现
-- 创建 dom 树
-- 树的`diff`，同层对比，输出`patchs(listDiff/diffChildren/diffProps)`
-    - 没有新的节点，返回
-    - 新的节点`tagName`与`key`不变， 对比`props`，继续递归遍历子树
-        - 对比属性(对比新旧属性列表):
-            - 旧属性是否存在与新属性列表中
-            - 都存在的是否有变化
-            - 是否出现旧列表中没有的新属性
-    - `tagName`和`key`值变化了，则直接替换成新节点
-- 渲染差异
-    - 遍历`patchs`， 把需要更改的节点取出来
-    - 局部更新`dom`
-代码实现：
-```js {.line-numbers}
-// diff算法的实现
-function diff(oldTree, newTree) {
-     // 差异收集
-    let pathchs = {}
-    dfs(oldTree, newTree, 0, pathchs)
-    return pathchs
-}
-
-function dfs(oldNode, newNode, index, pathchs) {
-    let curPathchs = []
-    if (newNode) {
-        // 当新旧节点的 tagName 和 key 值完全一致时
-        if (oldNode.tagName === newNode.tagName && oldNode.key === newNode.key) {
-              // 继续比对属性差异
-            let props = diffProps(oldNode.props, newNode.props)
-            curPathchs.push({ type: 'changeProps', props })
-            // 递归进入下一层级的比较
-            diffChildrens(oldNode.children, newNode.children, index, pathchs)
-        } else {
-              // 当 tagName 或者 key 修改了后，表示已经是全新节点，无需再比
-            curPathchs.push({ type: 'replaceNode', node: newNode })
-        }
-    }
-
-     // 构建出整颗差异树
-    if (curPathchs.length) {
-            if(pathchs[index]){
-                pathchs[index] = pathchs[index].concat(curPathchs)
-            } else {
-                pathchs[index] = curPathchs
-            }
-    }
-}
-
-// 属性对比实现
-function diffProps(oldProps, newProps) {
-    let propsPathchs = []
-    // 遍历新旧属性列表
-    // 查找删除项
-    // 查找修改项
-    // 查找新增项
-    forin(olaProps, (k, v) => {
-        if (!newProps.hasOwnProperty(k)) {
-            propsPathchs.push({ type: 'remove', prop: k })
-        } else {
-            if (v !== newProps[k]) {
-                propsPathchs.push({ type: 'change', prop: k , value: newProps[k] })
-            }
-        }
-    })
-    forin(newProps, (k, v) => {
-        if (!oldProps.hasOwnProperty(k)) {
-            propsPathchs.push({ type: 'add', prop: k, value: v })
-        }
-    })
-    return propsPathchs
-}
-
-// 对比子级差异
-function diffChildrens(oldChild, newChild, index, pathchs) {
-        // 标记子级的删除/新增/移动
-    let { change, list } = diffList(oldChild, newChild, index, pathchs)
-    if (change.length) {
-        if (pathchs[index]) {
-            pathchs[index] = pathchs[index].concat(change)
-        } else {
-            pathchs[index] = change
-        }
-    }
-
-     // 根据 key 获取原本匹配的节点，进一步递归从头开始对比
-    oldChild.map((item, i) => {
-        let keyIndex = list.indexOf(item.key)
-        if (keyIndex) {
-            let node = newChild[keyIndex]
-            // 进一步递归对比
-            dfs(item, node, index, pathchs)
-        }
-    })
-}
-
-// 列表对比，主要也是根据 key 值查找匹配项
-// 对比出新旧列表的新增/删除/移动
-function diffList(oldList, newList, index, pathchs) {
-    let change = []
-    let list = []
-    const newKeys = getKey(newList)
-    oldList.map(v => {
-        if (newKeys.indexOf(v.key) > -1) {
-            list.push(v.key)
-        } else {
-            list.push(null)
-        }
-    })
-
-    // 标记删除
-    for (let i = list.length - 1; i>= 0; i--) {
-        if (!list[i]) {
-            list.splice(i, 1)
-            change.push({ type: 'remove', index: i })
-        }
-    }
-
-    // 标记新增和移动
-    newList.map((item, i) => {
-        const key = item.key
-        const index = list.indexOf(key)
-        if (index === -1 || key == null) {
-            // 新增
-            change.push({ type: 'add', node: item, index: i })
-            list.splice(i, 0, key)
-        } else {
-            // 移动
-            if (index !== i) {
-                change.push({
-                    type: 'move',
-                    form: index,
-                    to: i,
-                })
-                move(list, index, i)
-            }
-        }
-    })
-
-    return { change, list }
-}
-```
 ## Proxy 相比于 defineProperty 的优势
 - 数组变化也能监听到
 - 不需要深度遍历监听
@@ -379,19 +225,4 @@ let reactiveData = new Proxy(data, {
     // ...
 })
 ```
-## 6. vue-router
-- **mode**
-    - `hash`
-    - `history`
-- **跳转**
-    - `this.$router.push()`
-    - `<router-link to=""></router-link>`
-- **占位**
-    - `<router-view></router-view>`
-## 7. vuex
-- `state`: 状态中心
-- `mutations`: 更改状态
-- `actions`: 异步更改状态
-- `getters`: 获取状态
-- `modules`: 将`state`分成多个`modules`，便于管理
 
