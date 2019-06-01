@@ -1,20 +1,16 @@
 # VUE
-
-## vue和angular的一些对比：
-|`VUE`|`angular`|
-|:----|:----|
-|v-if|*ngIf|
-|v-for="item in items"|*ngForr="let hero of heroes"|
-|v-on:click="fn()"|(click)="fn()"|
-|v-bind:class="{ active: isActive }"|[class.selected]="flage == true"|
-都支持模板语法:  `<h1>{{title}}</h1>`
-
 1、active-class是哪个组件的属性？嵌套路由怎么定义？  
 答：vue-router模块的router-link组件。
  
-2、怎么定义vue-router的动态路由？怎么获取传过来的动态参数？   
+2、怎么定义vue-router的动态路由？怎么获取传过来的动态参数？Vue的路由实现？   
 答：在router目录下的index.js文件中，对path属性加上/:id。   
-    使用router对象的params.id
+    使用router对象的params.id  
+**Vue的路由实现：hash模式 和 history模式**  
+- hash模式：在浏览器中符号“#”，#以及#后面的字符称之为hash，用window.location.hash读取；  
+特点：hash虽然在URL中，但不被包括在HTTP请求中；用来指导浏览器动作，对服务端安全无用，hash不会重加载页面。
+hash 模式下，仅 hash 符号之前的内容会被包含在请求中，如 http://www.xxx.com，因此对于后端来说，即使没有做到对路由的全覆盖，也不会返回 404 错误。  
+- history模式：history采用HTML5的新特性；且提供了两个新方法：pushState（），replaceState（）可以对浏览器历史记录栈进行修改，以及popState事件的监听到状态变更。  
+特点：history 模式下，前端的 URL 必须和实际向后端发起请求的 URL 一致，如 http://www.xxx.com/items/id。后端如果缺少对 /items/id 的路由处理，将返回 404 错误。Vue-Router 官网里如此描述：“不过这种模式要玩好，还需要后台配置支持……所以呢，你要在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。”
 
 3、vue-router有哪几种导航钩子？    
 答：三种，   
@@ -57,9 +53,9 @@ vue的model层的data属性。绑定事件：`<input @click=doLog() />`
 答：是一个api的标准，无状态请求。请求的路由地址是固定的，如果是tp5则先路由配置中把资源路由配置好。  
 标准有：.post .put .delete
  
-
 10、vuex是什么？怎么使用？哪种功能场景使用它？  
-答：vue框架中状态管理。在main.js引入store，注入。新建了一个目录store，….. export 。  
+答：vue框架中状态管理，当你打算开发大型单页应用（`SPA`），会出现多个视图组件依赖同一个状态，来自不同视图的行为需要变更同一个状态。  
+在main.js引入store，注入。新建了一个目录store，….. export 。  
 场景有：单页应用中，组件之间的状态。音乐播放、登录状态、加入购物车
 - `state`: 状态中心
 - `mutations`: 更改状态
@@ -72,15 +68,13 @@ vue的model层的data属性。绑定事件：`<input @click=doLog() />`
 通过状态（数据源）集中管理驱动组件的变化（好比spring的IOC容器对bean进行集中管理）。  
 应用级的状态集中放在store中； 改变状态的方式是提交mutations，这是个同步的事物； 异步逻辑应该封装在action中。
 
-12、自定义指令（`v-check`、`v-focus`）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？  
-答：全局定义指令：在vue对象的`directive`方法里面有两个参数，一个是指令名称，另外一个是函数。  
-组件内定义指令：`directives`  
-钩子函数：`bind`（绑定事件触发）、`inserted`(节点插入的时候触发)、`update`（组件内相关更新）  
-钩子函数参数：`el`、`binding`
- 
+12、`Vuex`是什么？为什么使用`Vuex`？
+答：`Vuex` 类似 `Redux` 的状态管理器，用来管理Vue的所有组件状态。
+
 13、说出至少4种vue当中的指令和它的用法？  
 答：`v-if`：判断是否隐藏；`v-for`：数据循环出来；  
 `v-bind:class`：绑定一个属性；`v-model`：实现双向绑定
+
 
 14、scss是什么？安装使用的步骤是？有哪几大特性？  
 答：预处理css，把css当前函数编写，定义变量,嵌套。   
@@ -123,21 +117,65 @@ next（一定要用这个函数才能去到下一个路由，如果不用就拦�
 
 ps：16题答案同样适合”vue data是怎么实现的？”此面试题。
 
+**js实现简单的双向绑定**
+```js
+<body>
+  <div id="app">
+  <input type="text" id="txt">
+  <p id="show"></p>
+</div>
+</body>
+<script type="text/javascript">
+  var obj = {}
+  Object.defineProperty(obj, 'txt', {
+    get: function () {
+      return obj
+    },
+    set: function (newValue) {
+      document.getElementById('txt').value = newValue
+      document.getElementById('show').innerHTML = newValue
+    }
+  })
+  document.addEventListener('keyup', function (e) {
+    obj.txt = e.target.value
+  })
+</script>
+```
 17、请详细说下你对`vue`生命周期的理解？  
-答：总共分为8个阶段**创建**前/后，**载入**前/后，**更新**前/后，**销毁**前/后。  
-**创建前/后**： 在`beforeCreated`阶段，`vue`实例的挂载元素`$el`和数据对象`data`都为`undefined`，还未初始化。在`created`阶段，`vue`实例的数据对象`data`有了，`$el`还没有。  
-**载入前/后**：在`beforeMount`阶段，`vue`实例的`$el`和`data`都初始化了，但还是挂载之前为虚拟的`dom`节点，`data.message`还未替换。在`mounted`阶段，`vue`实例挂载完成，`data.message`成功渲染。  
-**更新前/后**：当`data`变化时，会触发`beforeUpdate`和`updated`方法。  
-**销毁前/后**：在执行`destroy`方法后，对`data`的改变不会再触发周期函数，说明此时`vue`实例已经解除了事件监听以及和`dom`的绑定，但是`dom`结构依然存在.
+答：`beforeCreate`（**创建前**） 在数据观测和初始化事件还未开始  
+`created`（**创建后**） 完成数据观测，属性和方法的运算，初始化事件，$el属性还没有显示出来  
+`beforeMount`（**载入前**） 在挂载开始之前被调用，相关的render函数首次被调用。实例已完成以下的配置：编译模板，把data里面的数据和模板生成html。注意此时还没有挂载html到页面上。  
+`mounted`（**载入后**） 在el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用。实例已完成以下的配置：用上面编译好的html内容替换el属性指向的DOM对象。完成模板中的html渲染到html页面中。此过程中进行ajax交互。  
+`beforeUpdate`（**更新前**） 在数据更新之前调用，发生在虚拟DOM重新渲染和打补丁之前。可以在该钩子中进一步地更改状态，不会触发附加的重渲染过程。  
+`updated`（**更新后**） 在由于数据更改导致的虚拟DOM重新渲染和打补丁之后调用。调用时，组件DOM已经更新，所以可以执行依赖于DOM的操作。然而在大多数情况下，应该避免在此期间更改状态，因为这可能会导致更新无限循环。该钩子在服务器端渲染期间不被调用。  
+`beforeDestroy`（**销毁前**） 在实例销毁之前调用。实例仍然完全可用。  
+`destroyed`（**销毁后**） 在实例销毁之后调用。调用后，所有的事件监听器会被移除，所有的子实例也会被销毁。该钩子在服务器端渲染期间不被调用。
+- 什么是vue生命周期？  
+答： Vue 实例从创建到销毁的过程，就是生命周期。从开始创建、初始化数据、编译模板、挂载Dom→渲染、更新→渲染、销毁等一系列过程，称之为 Vue 的生命周期。
+
+- vue生命周期的作用是什么？  
+答：它的生命周期中有多个事件钩子，让我们在控制整个Vue实例的过程时更容易形成好的逻辑。
+
+- vue生命周期总共有几个阶段？  
+答：它可以总共分为8个阶段：创建前/后, 载入前/后,更新前/后,销毁前/销毁后。
+
+- 第一次页面加载会触发哪几个钩子？  
+答：会触发 下面这几个beforeCreate, created, beforeMount, mounted 。
+
+- DOM 渲染在 哪个周期中就已经完成？  
+答：DOM 渲染在 mounted 中就已经完成了。
 
 18、请说下封装 vue 组件的过程？  
 答：首先，组件可以提升整个项目的开发效率。能够把页面抽象成多个相对独立的模块，解决了我们传统项目开发：效率低、难维护、复用性等问题。  
 然后，使用Vue.extend方法创建一个组件，然后使用`Vue.component`方法注册组件。子组件需要数据，可以在`props`中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用`emit`方法。
 
-19、mvvm框架是什么？它和其它框架（`jquery`）的区别是什么？哪些场景适合？
-答：一个`model+view+viewModel`框架，数据模型`model`，`viewModel`连接两个  
-区别：vue数据驱动，通过数据来显示视图层而不是节点操作。  
-场景：数据操作比较多的场景，更加便捷  
+19、mvvm框架是什么？它和其它框架（`jquery`）的区别是什么？哪些场景适合？  
+答：MVVM 是 `Model-View-ViewModel` 的缩写。  
+`Model`代表数据模型，也可以在`Model`中定义数据修改和操作的业务逻辑。  
+`View` 代表`UI` 组件，它负责将数据模型转化成`UI` 展现出来。  
+`ViewModel` 监听模型数据的改变和控制视图行为、处理用户交互，简单理解就是一个同步`View` 和 `Model`的对象，连接`Model`和`View`。
+在`MVVM`架构下，`View` 和 `Model` 之间并没有直接的联系，而是通过`ViewModel`进行交互，`Model` 和 `ViewModel` 之间的交互是双向的， 因此`View` 数据的变化会同步到`Model`中，而`Model` 数据的变化也会立即反应到`View` 上。  
+`ViewModel` 通过双向数据绑定把 `View` 层和 `Model` 层连接了起来，而`View` 和 `Model` 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作DOM, 不需要关注数据状态的同步问题，复杂的数据状态维护完全由 `MVVM` 来统一管理。
  
 20、vue-loader是什么？使用它的用途有哪些？  
 答：解析.vue文件的一个加载器，跟template/js/style转换成js模块。  
@@ -165,9 +203,11 @@ main.js是入口文件
 首先，通过`compile`编译器把`template`编译成`AST`语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），`compile`是`createCompiler`的返回值，`createCompiler`是用以创建编译器的。另外`compile`还负责合并`option`。
 然后，`AST`会经过`generate`（将AST语法树转化成render funtion字符串的过程）得到`render`函数，`render`的返回值是`VNode`，`VNode`是`Vue`的虚拟`DOM`节点，里面有（标签名、子节点、文本等等）
 
-24、`Vuex`是什么？为什么使用`Vuex`？
-答：`Vuex` 类似 `Redux` 的状态管理器，用来管理Vue的所有组件状态。
-当你打算开发大型单页应用（`SPA`），会出现多个视图组件依赖同一个状态，来自不同视图的行为需要变更同一个状态。
+24、自定义指令（`v-check`、`v-focus`）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？  
+答：全局定义指令：在vue对象的`directive`方法里面有两个参数，一个是指令名称，另外一个是函数。  
+组件内定义指令：`directives`  
+钩子函数：`bind`（绑定事件触发）、`inserted`(节点插入的时候触发)、`update`（组件内相关更新）  
+钩子函数参数：`el`、`binding`
 
 25、vuejs与angularjs的区别？  
 答：  
@@ -196,10 +236,11 @@ paint是一个耗时的过程，然而layout是一个更耗时的过程，我们
 
 
 29、说下vue组件之间的通信？  
-答：非父子组件间通信，Vue 有提供 Vuex，以状态共享方式来实现同信，对于这一点，应该注意考虑平衡，从整体设计角度去考量，确保引入她的必要。  
-父传子: `this.$refs.xxx`   
-子传父: `this.$parent.xxx`  
-还可以通过`$emit`方法出发一个消息，然后`$on`接收这个消息
+- 1.父组件与子组件传值  
+父组件传给子组件：子组件通过props方法接受数据;
+子组件传给父组件：$emit方法传递参数
+- 2.非父子组件间的数据传递，兄弟组件传值  
+`eventBus`，就是创建一个事件中心，相当于中转站，可以用它来传递事件和接收事件。项目比较小时，用这个比较合适。（虽然也有不少人推荐直接用`VUEX`，具体来说看需求咯。技术只是手段，目的达到才是王道。）
 
 30、vue中mixin与extend区别？  
 答：全局注册混合对象，会影响到所有之后创建的vue实例，而Vue.extend是对单个实例进行扩展。  
@@ -213,6 +254,88 @@ paint是一个耗时的过程，然而layout是一个更耗时的过程，我们
 - `macrotasks`任务的实现:
     - `setImmediate / MessageChannel / setTimeout`
 
+32、vue-cli如何新增自定义指令？
+1.创建局部指令
+```js
+var app = new Vue({
+  el: '#app',
+  data: {},
+  // 创建指令(可以多个)
+  directives: {
+    // 指令名称
+    dir1: {
+      inserted(el) {
+        // 指令中第一个参数是当前使用指令的DOM
+        console.log(el);
+        console.log(arguments);
+        // 对DOM进行操作
+        el.style.width = '200px';
+        el.style.height = '200px';
+        el.style.background = '#000';
+      }
+    }
+  }
+})
+```
+2.全局指令
+```js
+Vue.directive('dir2', {
+  inserted(el) {
+      console.log(el);
+  }
+})
+```
+3.指令的使用
+```js
+<div id="app">
+  <div v-dir1></div>
+  <div v-dir2></div>
+</div>
+```
+
+33、 一句话就能回答的面试题  
+1.css只在当前组件起作用  
+答：在style标签中写入scoped即可 例如：<style scoped></style>
+
+2.v-if 和 v-show 区别  
+答：v-if按照条件是否渲染，v-show是display的block或none；
+
+3.$route和$router的区别  
+答：$route是“路由信息对象”，包括path，params，hash，query，fullPath，matched，name等路由信息参数。而$router是“路由实例”对象包括了路由的跳转方法，钩子函数等。
+
+4.vue.js的两个核心是什么？  
+答：数据驱动、组件系统
+
+5.vue几种常用的指令  
+答：v-for 、 v-if 、v-bind、v-on、v-show、v-else
+
+6.vue常用的修饰符？  
+答：.prevent: 提交事件不再重载页面；.stop: 阻止单击事件冒泡；.self: 当事件发生在该元素本身而不是子元素的时候会触发；.capture: 事件侦听，事件发生的时候会调用
+
+7.v-on 可以绑定多个方法吗？  
+答：可以
+
+8.vue中 key 值的作用？  
+答：当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。key的作用主要是为了高效的更新虚拟DOM。
+
+9.什么是vue的计算属性？  
+答：在模板中放入太多的逻辑会让模板过重且难以维护，在需要对数据进行复杂处理，且可能多次使用的情况下，尽量采取计算属性的方式。好处：①使得数据处理结构清晰；②依赖于数据，数据更新，处理结果自动更新；③计算属性内部this指向vm实例；④在template调用时，直接写计算属性名即可；⑤常用的是getter方法，获取数据，也可以使用set方法改变数据；⑥相较于methods，不管依赖的数据变不变，methods都会重新计算，但是依赖数据不变的时候computed从缓存中获取，不会重新计算。
+
+10.vue等单页面应用及其优缺点  
+答：优点：Vue 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件，核心是一个响应的数据绑定系统。MVVM、数据驱动、组件化、轻量、简洁、高效、快速、模块友好。  
+缺点：不支持低版本的浏览器，最低只支持到IE9；不利于SEO的优化（如果要支持SEO，建议通过服务端来进行渲染组件）；第一次加载首页耗时相对长一些；不可以使用浏览器的导航按钮需要自行实现前进、后退。
+
+11.Vuejs中关于computed、methods、watch的区别  
+- `computed`：计算属性将被混入到 Vue 实例中。所有 getter 和 setter 的 this 上下文自动地绑定为 Vue 实例。
+- `methods`：methods 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。
+- `watch`：是一种更通用的方式来观察和响应 Vue 实例上的数据变动。一个对象，键是需要观察的表达式，值是对应回调函数。值也可以是方法名，或者包含选项的对象。Vue 实例将会在实例化时调用 $watch()，遍历 watch 对象的每一个属性。
+
+通俗来讲，
+computed是在HTML DOM加载后马上执行的，如赋值；  
+而methods则必须要有一定的触发条件才能执行，如点击事件；  
+watch呢？它用于观察Vue实例上的数据变动。对应一个对象，键是观察表达式，值是对应回调。值也可以是方法名，或者是对象，包含选项。  
+所以他们的执行顺序为：默认加载的时候先computed再watch，不执行methods；等触发某一事件后，则是：先methods再watch。
+
 ## Proxy 相比于 defineProperty 的优势
 - 数组变化也能监听到
 - 不需要深度遍历监听
@@ -225,4 +348,28 @@ let reactiveData = new Proxy(data, {
     // ...
 })
 ```
+## Vue与Angular以及React的区别？
+|`VUE`|`angular`|
+|:----|:----|
+|v-if|*ngIf|
+|v-for="item in items"|*ngForr="let hero of heroes"|
+|v-on:click="fn()"|(click)="fn()"|
+|v-bind:class="{ active: isActive }"|[class.selected]="flage == true"|
+都支持模板语法:  `<h1>{{title}}</h1>`
 
+（版本在不断更新，以下的区别有可能不是很正确。我工作中只用到vue，对angular和react不怎么熟）  
+1.与`AngularJS`的区别  
+相同点：  
+都支持指令：内置指令和自定义指令；都支持过滤器：内置过滤器和自定义过滤器；都支持双向数据绑定；都不支持低端浏览器。
+
+不同点：  
+`AngularJS`的学习成本高，比如增加了`Dependency Injection`特性，而Vue.js本身提供的API都比较简单、直观；在性能上，`AngularJS`依赖对数据做脏检查，所以`Watcher`越多越慢；Vue.js使用基于依赖追踪的观察并且使用异步队列更新，所有的数据都是独立触发的。
+
+2.与`React`的区别  
+相同点：  
+`React`采用特殊的`JSX`语法，`Vue.js`在组件开发中也推崇编写`.vue`特殊文件格式，对文件内容都有一些约定，两者都需要编译后使用；  
+中心思想相同：  
+一切都是组件，组件实例之间可以嵌套；都提供合理的钩子函数，可以让开发者定制化地去处理需求；  
+都不内置列数`AJAX`，`Route`等功能到核心包，而是以插件的方式加载；在组件开发中都支持mixins的特性。  
+不同点：  
+`React`采用的`Virtual DOM`会对渲染出来的结果做脏检查；Vue.js在模板中提供了指令，过滤器等，可以非常方便，快捷地操作`Virtual DOM`。
