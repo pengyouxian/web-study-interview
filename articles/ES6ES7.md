@@ -162,7 +162,9 @@ setInterval(() => {
   const hours = now.getHours().toString()
   const minutes = now.getMinutes().toString()
   const seconds = now.getSeconds().toString()
-  console.log(`${hours.padStart(2, 0)}:${minutes.padStart(2, 0)}:${seconds.padStart(2, 0)}`)
+  console.log(
+    `${hours.padStart(2, 0)}:${minutes.padStart(2, 0)}:${seconds.padStart(2, 0)}`
+  )
 }, 1000)
 ```
 
@@ -460,10 +462,11 @@ export class App extend Component {};
 
 3.当用export name 时，就用import { name }导入（记得带上大括号）
 
-4.当一个文件里，既有一个export default people, 又有多个export name 或者 export age时，
-  导入就用 import people, { name, age } 
+4.当一个文件里，既有一个export default people, 又有多个export name 或者 
+  export age时，导入就用 import people, { name, age } 
 
-5.当一个文件里出现n多个 export 导出很多模块，导入时除了一个一个导入，也可以用import * as example
+5.当一个文件里出现n多个 export 导出很多模块，导入时除了一个一个导入，
+  也可以用import * as example
 ```
 
 ## 8. Promise
@@ -512,8 +515,11 @@ console.log(5);
 
 ## 9.Generators
 生成器（`generator`）是能返回一个 **迭代器** 的函数。  
-生成器函数也是一种函数，最直观的表现就是比普通的`function`多了个星号`*`，在其函数体内可以使用`yield`关键字,有意思的是函数会在每个`yield`后暂停。  
+
+生成器函数也是一种函数，最直观的表现就是比普通的`function`多了个星号`*`，在其函数体内可以使用`yield`关键字,有意思的是函数会在每个`yield`后暂停。
+
 这里生活中有一个比较形象的例子。咱们到银行办理业务时候都得向大厅的机器取一张排队号。你拿到你的排队号，机器并不会自动为你再出下一张票。也就是说取票机“暂停”住了，直到下一个人再次唤起才会继续吐票。  
+
 OK。说说迭代器。当你调用一个`generator`时，它将返回一个迭代器对象。这个迭代器对象拥有一个叫做`next`的方法来帮助你重启`generator`函数并得到下一个值。`nex`t方法不仅返回值，它返回的对象具有两个属性：`done`和`value`。`value`是你获得的值，`done`用来表明你的`generator`是否已经停止提供值。继续用刚刚取票的例子，每张排队号就是这里的`value`，打印票的纸是否用完就这是这里的`done`。
 ```js
 // 生成器
@@ -548,7 +554,9 @@ generator.next(); // { value: 'ending', done: true }
 generator.next(); // { value: undefined, done: true }
 ```
 那生成器和迭代器又有什么用处呢？  
+
 围绕着生成器的许多兴奋点都与异步编程直接相关。异步调用对于我们来说是很困难的事，我们的函数并不会等待异步调用完再执行，你可能会想到用回调函数，（当然还有其他方案比如`Promise`比如`Async/await`）。  
+
 生成器可以让我们的代码进行等待。就不用嵌套的回调函数。使用generator可以确保当异步调用在我们的generator函数运行一下行代码之前完成时暂停函数的执行。  
 那么问题来了，咱们也不能手动一直调用next()方法，你需要一个能够调用生成器并启动迭代器的方法。就像这样子的
 ```js
