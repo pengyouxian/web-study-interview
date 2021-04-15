@@ -21,3 +21,6 @@ git pull --rebase
 git merge 本地  
 git push origin HEAD:refs/for/远程
 
+如何在vscode中使用git命令行：
+1. 设置
+2. settings.json
