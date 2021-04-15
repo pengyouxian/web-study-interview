@@ -24,3 +24,4 @@ git push origin HEAD:refs/for/远程
 如何在vscode中使用git命令行：
 1. 设置
 2. settings.json
+3. 添加一行`"terminal.integrated.shell.windows": "D:\\Program Files\\Git\\bin\\bash.exe"`
