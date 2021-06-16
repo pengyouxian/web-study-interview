@@ -15,7 +15,6 @@
 - [内存泄露](#9-内存泄露)
 - [GET和POST的区别](#10-GET和POST的区别)
 - [跨域](#11-跨域)
-- [浏览器渲染页面的过程](#12-浏览器渲染页面的过程)
 ## 1.性能优化
 **性能优化原则**：
 - 多使用内存、缓存或者其他方法
@@ -24,7 +23,8 @@
 从哪里入手：
 - 加载页面和静态资源
 - 页面渲染
- 
+
+具体的：
 - 加载资源优化：
     - 静态资源的压缩合并
     - 静态资源缓存
@@ -195,16 +195,12 @@ window.addEventListener('DOMContentloaded',function(){
 - TCP 三次握手
 - 发送请求，分析 url，设置请求报文(头，主体)
 - 服务器返回请求的文件 (html)
-- 浏览器渲染
-    - HTML parser --> DOM Tree
-        - 标记化算法，进行元素状态的标记
-        - dom 树构建
-    - CSS parser --> Style Tree
-        - 解析 css 代码，生成样式树
-    - attachment --> Render Tree
-        - 结合 dom树 与 style树，生成渲染树
-    - layout: 布局
-    - GPU painting: 像素绘制页面
+- 浏览器渲染 :
+    - 根据HTML结构生成DOM Tree;
+    - 根据CSS 生成CSSOM ;
+    - 根据DOM 和CSSOM 整合形成Render Tree;
+    - 根据Render Tree 开始渲染和展示
+    - 遇到`<script>`时，会执行并阻塞渲染
 ## 6. 存储
 需要对业务中的一些数据进行存储，通常可以分为 **短暂性存储** 和 **持久性储存**。  
 - 短暂性的时候，我们只需要将数据存在内存中，只在运行时可用
@@ -430,9 +426,3 @@ module.exports = {
     }
 }
 ```
-## 12. 浏览器渲染页面的过程：
-1. 根据HTML结构生成DOM Tree; 
-2. 根据CSS 生成CSSOM ;
-3. 根据DOM 和CSSOM 整合形成Render Tree;  
-4. 根据Render Tree 开始渲染和展示
-5. 遇到`<script>`时，会执行并阻塞渲染
