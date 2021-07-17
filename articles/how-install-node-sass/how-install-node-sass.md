@@ -16,29 +16,29 @@
 
 - 打开 WEB 浏览器访问https://www.python.org/downloads/windows/
 
-![image-20210709105511419](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709105511419.png)
+![image-20210709105511419](./img/image-20210709105511419.png)
 
 - 在下载列表中选择Window平台安装包
 
-![image-20210709105633232](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709105633232.png)
+![image-20210709105633232](./img/image-20210709105633232.png)
 
 - 下载后，双击下载包，进入 Python 安装向导，安装非常简单，你只需要使用默认的设置一直点击"下一步"直到安装完成即可。
 
-![image-20210709105754961](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709105754961.png)
+![image-20210709105754961](./img/image-20210709105754961.png)
 
 - 建议勾选这两项，其中一个是关于环境变量的
 
-![image-20210709105848770](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709105848770.png)
+![image-20210709105848770](./img/image-20210709105848770.png)
 
 - 安装成功！
 
   ### 再次安装node-sass：
 
-  ![image-20210709110040996](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709110040996.png)
+  ![image-20210709110040996](./img/image-20210709110040996.png)
 
-依旧会跑一大堆脚本，输出一大堆信息，我们只看最后的结果：
+依旧会跑一大堆脚本，输出一大堆信息，只看最后的结果：
 
-![image-20210709110156693](C:\Users\Dovahkiin\Documents\markdown\how-install-node-sass\img\image-20210709110156693.png)
+![image-20210709110156693](./img/image-20210709110156693.png)
 
 如图，便是安装成功了！
 
