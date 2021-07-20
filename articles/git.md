@@ -1,6 +1,7 @@
 # git 常用命令
 
 git branch -a
+
 git checkout 远程
 
 
@@ -35,8 +36,14 @@ git push origin HEAD:refs/for/远程
 6. 如果需要自己github上的fork的仓库需要保持同步更新，执行`git push`进行推送
 `git push origin master`
 
+#### 如何在vscode中使用git命令行：
 
-如何在vscode中使用git命令行：
 1. 设置
 2. settings.json
 3. 添加一行`"terminal.integrated.shell.windows": "D:\\Program Files\\Git\\bin\\bash.exe"`
+
+### github常见报错：
+
+1. ! [remote rejected] master -> master (permission denied)
+
+`permission denied`有可能是克隆的地址不是ssh导致的，可以尝试换成ssh重新克隆
