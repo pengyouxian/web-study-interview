@@ -10,9 +10,9 @@
 
 如上图，在pull前端开源项目代码之后，如果依赖了node-sass，经常会遇到如上`gyp....` 开头的信息提示，其中有提到需要python某版本的依赖。
 
-这个问题并不是npm网络代理导致的，所以即便使用`cnpm`代替`npm`来执行安装操作，一样会遇到这样的问题，所以重点还是要通过安装python来解决。
+这个问题并不是npm网络代理导致的，所以即便使用`cnpm`代替`npm`来执行安装操作，一样会遇到这样的问题，所以重点还是要通过安装python来解决，或者可以通过手动安装node-sass来解决。
 
-### 安装python的步骤
+### 方案一：安装python的步骤
 
 - 打开 WEB 浏览器访问https://www.python.org/downloads/windows/
 
@@ -42,8 +42,26 @@
 
 如图，便是安装成功了！
 
+### 方案二：手动下载安装node-sass
 
+适用于方案一无法解决，依然报错的情况：
 
+1. 浏览器访问[Releases · sass/node-sass (github.com)](https://github.com/sass/node-sass/releases)下载对应的`.node`版本，假设下载的路径为`src/xxxx.node`
 
+2. 配置临时环境变量
+
+   打开cmd，输入`set SASS_BINARY_PATH=src/xxxx.node`(如果是PowerShell需要将等号换成空格)
+
+3. `npm i -g node-sass`，如果前面安装失败，可以尝试`npm i -g node-sass --force`
+
+4. 命令行输入`npm view node-sass version`能输出成功表示安装成功！
+
+   #### 可能遇到的情况：
+
+   在第3步，依然报错，但不是提示已存在安装，可能是npm版本的问题，`npm i npm@6.14.11 -g`，本次安装是将npm版本从7.x降低到6.x解决的。
+
+   
+
+   
 
 ===================end====================
